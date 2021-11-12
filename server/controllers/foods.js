@@ -22,4 +22,10 @@ router.get('/cats/:id', (req, res) => {
     }
 });
 
+router.delete('/id', (req, res) => {
+    const foodToDelete = Food.findById(parseInt(req.params.id));
+    foodToDelete.delete();
+    res.status(204).send();
+})
+
 module.exports = router;
