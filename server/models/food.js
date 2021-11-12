@@ -1,11 +1,10 @@
-const foodData = require('../data');
+const foodData = require('../../data');
 
 class Food {
     constructor(data) {
         this.id = data.id;
         this.name = data.name;
         this.origin = data.origin;
-        this.numOfIngredients = data.numOfIngredients;
     }
 
     static get allFood() {
@@ -20,6 +19,18 @@ class Food {
             }
         })
         return food;
+    }
+
+    static create(food) {
+        const id = foodData.length++;
+        const newFood = new Food({ id, ...food });
+        foodData.push(newFood);
+        return newFood;
+    }
+
+    static delete() {
+        const food = foodData.filter((food) => food.id === this.id)[0];
+        foodData.splice(foodData.indexOf(food), 1);
     }
 }
 
