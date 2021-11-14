@@ -5,13 +5,13 @@ const Food = require('../models/food');
 
 router.get('/', (req, res) => {
     const foodData = Food.allFood;
-    res.send(foodData);
+    res.status(200).send(foodData);
 });
 
-router.get('/cats/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     try {
         const foodId = parseInt(req.params.id);
-        const selectedFood = Food.findByName(foodId);
+        const selectedFood = Food.findById(foodId);
         if (!selectedFood) {
             throw new Error('This food does not exist');
         }
@@ -22,10 +22,23 @@ router.get('/cats/:id', (req, res) => {
     }
 });
 
-router.delete('/id', (req, res) => {
+router.post('/', (req, res) => {
+    const data = req.body;
+    const newFood = Food.create(data);
+    res.status(201).send(newFood);
+});
+
+router.delete('/:id', (req, res) => {
     const foodToDelete = Food.findById(parseInt(req.params.id));
     foodToDelete.delete();
     res.status(204).send();
-})
+});
+
+router.put('/:id', (req, res) => {
+    const data = req.body;
+    const foodToUpdate = Food.findById(parseInt(req.params.id));
+    foodToUpdate.update(data);
+    res.status(200).send(foodToUpdate);
+});
 
 module.exports = router;
