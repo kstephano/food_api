@@ -1,11 +1,11 @@
 const request = require('supertest');
-const { isTypedArray } = require('util/types');
 // import server
 const server = require('../../app');
 
 describe('API server', () => {
     let api;
     let testFood = {
+        id: 1,
         name: "Pasta",
         origin: "Italy",
     };
@@ -37,7 +37,7 @@ describe('API server', () => {
             .send(testFood)
             .set('Accept', /application\/json/)
             .expect(201)
-            .expect({ id: 4, ...testFood }, done);
+            .expect({ ...testFood }, done);
     });
 
     it('retrieves a food by id', (done) => {
@@ -59,6 +59,6 @@ describe('API server', () => {
     it('response to delete /foods/:id with status 204', async () => {
         await request(api).delete('/foods/1').expect(204);
         const updatedFoods = await request(api).get('/foods');
-        expect(updatedFoods.body.length).toBe(2);
+        expect(updatedFoods.body.length).toBe(3);
     });
 });
