@@ -1,20 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
-const port = 3000;
+const foodRoutes = require('./server/controllers/foods');
+const logger = require('./server/middleware/logger');
+
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-app.get('/', (req, res) => {
-    res.status(200).send('API home page!');
-});
-
-const foodRoutes = require('./server/controllers/foods');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger); // init middleware
 app.use('/foods', foodRoutes);
 
-app.listen(port, () => {
-    console.log(`Food server listening at http://localhost:${port}`);
+app.get('/', (req, res) => {
+    res.status(200).send('API home page');
 });
 
 module.exports = app;
