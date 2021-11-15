@@ -1,4 +1,4 @@
 const server = require('./app');
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
-server.listen(port, () => console.log(`\nExpress departing now from port ${port}!\n`));
+server.listen(PORT, () => console.log(`\nExpress departing now from http://localhost:${PORT}!\n`));
