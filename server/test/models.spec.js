@@ -1,7 +1,3 @@
-const { hasUncaughtExceptionCaptureCallback } = require('process');
-const { isTypedArray } = require('util/types');
-const foodsData = require('../../data');
-
 const Food = require('../models/food');
 
 describe ('Food model', () => {
