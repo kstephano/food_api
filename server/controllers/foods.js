@@ -23,15 +23,27 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const data = req.body;
-    const newFood = Food.create(data);
-    res.status(201).send(newFood);
+    try {
+        const data = req.body;
+        const newFood = Food.create(data);
+        res.status(201).send(newFood);
+    } catch (e) {
+        console.log(e);
+        res.status(400).send({ message: `Couldn't POST: ${e.message}`});
+    }
+
 });
 
 router.delete('/:id', (req, res) => {
-    const foodToDelete = Food.findById(parseInt(req.params.id));
-    foodToDelete.delete();
-    res.status(204).send();
+    try {
+        const foodToDelete = Food.findById(parseInt(req.params.id));
+        foodToDelete.delete();
+        res.status(204).send();
+    } catch (e) {
+        console.log(e);
+        res.status(400).send({ message: `Couldn't DELETE: ${e.message}`});
+    }
+ 
 });
 
 router.put('/:id', (req, res) => {
@@ -41,7 +53,6 @@ router.put('/:id', (req, res) => {
         foodToUpdate.update(update);
         res.status(200).send(foodToUpdate);
     } catch (e) {
-        console.log(e);
         res.status(400).send({ message: `Couldn't UPDATE: no food with the id of ${req.params.id}` });
     }
 });
