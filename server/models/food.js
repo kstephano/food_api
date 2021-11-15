@@ -8,7 +8,9 @@ class Food {
     }
 
     static get allFood() {
-        return foodData.map((food) => new Food(food));
+        return foodData.map((food) => new Food(food)).sort((food1, food2) => {
+            return food1.id - food2.id;
+        });
     }
 
     static findById(id) {
