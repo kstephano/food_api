@@ -18,7 +18,7 @@ router.get('/:id', (req, res) => {
         res.send(selectedFood);
     } catch (e) {
         console.log(e);
-        res.status(400).send({ message: e.message });
+        res.status(400).send({ message: `Couldn't GET: no food with the id of ${req.params.id}` });
     }
 });
 
@@ -35,10 +35,15 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    const data = req.body;
-    const foodToUpdate = Food.findById(parseInt(req.params.id));
-    foodToUpdate.update(data);
-    res.status(200).send(foodToUpdate);
+    try {
+        const update = req.body;
+        const foodToUpdate = Food.findById(parseInt(req.params.id));
+        foodToUpdate.update(update);
+        res.status(200).send(foodToUpdate);
+    } catch (e) {
+        console.log(e);
+        res.status(400).send({ message: `Couldn't UPDATE: no food with the id of ${req.params.id}` });
+    }
 });
 
 module.exports = router;
